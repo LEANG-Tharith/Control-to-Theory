@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forward and Inverse Kinematics</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="website icon" href="../pic.png" />
+  </head>
+  <body>
+    <header>
+      <h1>Forward Kinematic and Inverse Kinematic</h1>
+      <p><strong>Author:</strong> M. LEANG Tharith</p>
+      <p><strong>Date:</strong> December 24, 2024</p>
+    </header>
+    <main>
+      <section id="forward-kinematic">
+        <h2>1. Forward Kinematic</h2>
+        <p>
+          Forward Kinematics (FK) involves calculating the position and
+          orientation of the robot’s end effector (tool) in Cartesian space,
+          given the joint parameters (angles or displacements).
+        </p>
+        <h3>1.1 Application:</h3>
+        <ul>
+          <li>
+            Determines where the robot’s end effector is located based on the
+            given joint angles.
+          </li>
+        </ul>
+        <h3>1.2 Example in a 2-DOF Manipulator:</h3>
+        <p>
+          For a manipulator with two joints \( \theta_1 \) and \( \theta_2 \),
+          and link lengths \( l_1 \) and \( l_2 \):
+        </p>
+        <pre>
+                \( x_e = l_1 \cos(\theta_1) + l_2 \cos(\theta_1 + \theta_2) \)
+                \( y_e = l_1 \sin(\theta_1) + l_2 \sin(\theta_1 + \theta_2) \)
+            </pre
+        >
+        <ul>
+          <li>
+            <strong>Inputs:</strong> Joint angles (\( \theta_1, \theta_2 \))
+          </li>
+          <li>
+            <strong>Outputs:</strong> Cartesian position of the end effector (\(
+            x_e, y_e \))
+          </li>
+        </ul>
+      </section>
+      <section id="inverse-kinematic">
+        <h2>2. Inverse Kinematic</h2>
+        <p>
+          Inverse Kinematics (IK) is the reverse of Forward Kinematics. It
+          involves determining the joint parameters (angles or displacements)
+          required to place the end effector at a desired position and
+          orientation.
+        </p>
+        <h3>2.1 Applications:</h3>
+        <ul>
+          <li>Allows the robot to reach a specific point in space.</li>
+        </ul>
+        <h3>2.2 Challenges:</h3>
+        <ul>
+          <li>
+            Multiple solutions: A manipulator might have multiple configurations
+            to reach the same position (e.g., "elbow-up" or "elbow-down").
+          </li>
+          <li>
+            No solution: If the target point is outside the robot’s reachable
+            workspace, no solution exists.
+          </li>
+          <li>
+            Singularities: Points where the robot loses a degree of freedom,
+            leading to infinite solutions for some joint parameters.
+          </li>
+        </ul>
+        <h3>2.3 Example in a 2-DOF Manipulator:</h3>
+        <p>
+          Given a desired position (\( x_e, y_e \)), the joint angles \(
+          \theta_1 \) and \( \theta_2 \) are calculated as:
+        </p>
+        <pre>
+                Compute \( D = \frac{x_e^2 + y_e^2 - l_1^2 - l_2^2}{2 l_1 l_2} \)
+                Solve for \( \theta_2 \):
+                \( \theta_1 = \arctan2(y_e, x_e) - \arctan2(l_2 \sin(\theta_2), l_1 + l_2 \cos(\theta_2)) \)
+            </pre
+        >
+        <ul>
+          <li>
+            <strong>Inputs:</strong> Cartesian position of the end effector (\(
+            x_e, y_e \))
+          </li>
+          <li>
+            <strong>Outputs:</strong> Joint angles (\( \theta_1, \theta_2 \))
+          </li>
+        </ul>
+      </section>
+      <section id="comparison">
+        <h2>3. Comparison</h2>
+        <table>
+          <tr>
+            <th>Aspect</th>
+            <th>Forward Kinematics (FK)</th>
+            <th>Inverse Kinematics (IK)</th>
+          </tr>
+          <tr>
+            <td>Input</td>
+            <td>Joint angles (\( \theta \))</td>
+            <td>Cartesian position (\( x, y \))</td>
+          </tr>
+          <tr>
+            <td>Output</td>
+            <td>Cartesian position (\( x, y \))</td>
+            <td>Joint angles (\( \theta \))</td>
+          </tr>
+          <tr>
+            <td>Complexity</td>
+            <td>Relatively simple</td>
+            <td>Can be complex (nonlinear equations)</td>
+          </tr>
+          <tr>
+            <td>Use Case</td>
+            <td>Simulation, motion planning</td>
+            <td>Path following, trajectory planning</td>
+          </tr>
+        </table>
+      </section>
+      <section id="real-life-example">
+        <h2>4. Real-Life Example</h2>
+        <p>Imagine controlling a robotic arm:</p>
+        <ul>
+          <li>
+            FK is used to simulate where the arm’s hand is given specific joint
+            angles.
+          </li>
+          <li>
+            IK is used to determine how to position the arm’s hand to pick up an
+            object at a specific location.
+          </li>
+        </ul>
+        <p>
+          In a practical setting like animating the manipulator along an
+          elliptical trajectory, IK is used to calculate the joint angles (\(
+          \theta_1, \theta_2 \)) required to follow the trajectory, while FK
+          verifies the resulting position of the end effector.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
